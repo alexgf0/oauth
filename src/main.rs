@@ -3,8 +3,6 @@ use actix_web::{get, HttpResponse, Responder, HttpRequest};
 use reqwest;
 use dotenv::dotenv;
 
-
-
 #[get("/login")]
 async fn google_login() -> impl Responder {
     // get the parameters from .env file to make get petition to google
@@ -42,10 +40,27 @@ async fn get_access_token(authorization_code: &str) -> String {
     body["access_token"].to_string()
 }
 
+async fn get_user_email(access_token: &str) -> String {
+    let client = reqwest::Client::builder().build().unwrap();
+
+    let request = client
+        .request(reqwest::Method::GET, "https://www.googleapis.com/oauth2/v1/userinfo?alt=json")
+        .header("Content-Type", "application/json")
+        .header("Authorization", &format!("Bearer {}", access_token));
+    
+    let response = request.send().await.unwrap();
+
+    let body = response.text().await.unwrap();
+    println!("{}", body);
+    let body: serde_json::Value = serde_json::from_str(&body).unwrap();
+
+    body["email"].to_string()
+}
 
 
 #[get("/google/redirect")]
 async fn google_redirect(req_headers: HttpRequest) -> impl Responder {
+    let mut user_email = String::from("");
     let parameters = req_headers.query_string().split("&");
     for parameter in parameters {
         let values = parameter.split("=").collect::<Vec<&str>>();
@@ -54,9 +69,10 @@ async fn google_redirect(req_headers: HttpRequest) -> impl Responder {
             println!("calling access_token with {}", values[1]);
             let access_token = get_access_token(values[1]).await;
             println!("access_token: {access_token}");
+            user_email = get_user_email(&access_token).await;
         }
     }
-    HttpResponse::Ok().body(format!("Hi"))
+    HttpResponse::Ok().body(format!("Your email is: {}", user_email))
 }
 
 
