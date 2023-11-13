@@ -1,30 +1,30 @@
 This repository implements a basic Rust server that uses OAuth2 to obtain the gmail from a Google user.
-The implementation avoids the use of frameworks (regarding OAuth functionality) to exemplify the minimum basic OAuth workflow.
+The implementation avoids the use of frameworks (regarding OAuth2 functionality) to exemplify the minimum basic OAuth2 workflow.
 
 For brevity neither tests nor error handling has been implemented in this project.
 
 Keep in mind that this project is only meant for explanation purposes. We do not take any responsability for the security or usability of the code. Please do your own research before taking anything into production.
 # Interesting references
-[OAuth workflow by IBM](https://www.ibm.com/docs/en/tfim/6.2.2.6?topic=overview-oauth-20-workflow)
+[OAuth 2.0 workflow by IBM](https://www.ibm.com/docs/en/tfim/6.2.2.6?topic=overview-oauth-20-workflow)
 
 [Google's documentation](https://developers.google.com/identity/protocols/oauth2/web-server)
 
 
-# Enabling OAuth for your Google account
-To set up OAuth in your Google account you can follow the instructions described in [this document](oauth_google_account.md).
+# Enabling OAuth2 for your Google account
+To set up OAuth2 in your Google account you can follow the instructions described in [this document](oauth2_google_account.md).
 
-# OAuth Workflow 
-To access a Google user's information, we first need to get an access token through the OAuth protocol.
+# OAuth2 Workflow 
+To access a Google user's information, we first need to get an access token through the OAuth2 protocol.
 
 To explain the process we are going to define three entities:
 - The **user** (client to our server that *wants to log in with* (or share information from) Google into our web application)
-- The **server** (this server to which the user connects to, also the OAuth client)
-- **Google's server** (the OAuth provider)
+- The **server** (this server to which the user connects to, also the OAuth2 client)
+- **Google's server** (the OAuth2 provider)
 
 On the other hand, we are going to use the following variables (*that should be defined in the* [.env file](./.env) to run the project) throughout the process:
-- **google_client_id**: this identifies the Google account that we have set up to use as the OAuth Client.
+- **google_client_id**: this identifies the Google account that we have set up to use as the OAuth2 Client.
 - **google_client_secret**: same as before, should only be shared directly with Google.
-- **google_scope**: the user's information that we want to access. This should be within the scopes defined in the Google OAuth account configuration.
+- **google_scope**: the user's information that we want to access. This should be within the scopes defined in the Google OAuth2 account configuration.
 - **google_redirect_uri**: the uri to which Google will redirect the user, passing some parameters through the uri.
 
 ### 1. Get the authorization code
@@ -109,7 +109,7 @@ where *your-gmail-id* will be a real gmail id, *your-gmail-name* will be the act
 # Build
 To run this project you need to have Cargo installed [[installation reference](https://www.rust-lang.org/learn/get-started)].
 
-Remember to replace the environment variables in the [.env file](./.env) with your [Google configuration]("./oauth_google_account.md").
+Remember to replace the environment variables in the [.env file](./.env) with your [Google configuration]("./oauth2_google_account.md").
 
 To execute just run in the repository home directory:
 ``` 

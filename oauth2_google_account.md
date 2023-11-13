@@ -1,4 +1,4 @@
-This document explains how to enable OAuth for your google account.
+This document explains how to enable OAuth 2.0 for your google account.
 
 1. Go to https://console.developers.google.com/ and log in to your Google account.
 2. At the top of the page there's a 'Select Project' button. When clicked a modal popup should appear.
